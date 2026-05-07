@@ -32,6 +32,10 @@
   --color-magnesio: #9dd799;
   --color-blue-abbott: #1686cd;
 
+  /* gradient */
+  --gradient-button:  135deg, #b10165 0%, #ff2b01 50%, #db8d14 100%;
+  --gradient-button-reverse:  315deg, #b10165 0%, #ff2b01 50%, #db8d14 100%;
+
 
   --font-brandon: "Brandon", sans-serif;
   --font-georgia: Georgia, serif;
