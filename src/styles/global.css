@@ -42,3 +42,7 @@
 
   --breakpoint-xs: 26rem;
 }
+
+.bg-home-bottom-radial {
+  background: radial-gradient(circle at 50% 35%, #fff 0%, #fff 72%, rgba(22, 134, 205, 0.25) 88%, var(--color-blue-abbott) 100%);
+}
