@@ -71,17 +71,35 @@ const zones = [
 
     <main class="max-w-7xl mx-auto px-4 md:px-6">
 
-      <!-- Title pill -->
+      <!-- Title pill + instruction row -->
       <div class="mb-4">
         <div class="inline-flex items-center gap-3 rounded-full py-2 px-6 mb-3"
              style="background:linear-gradient(135deg,#b10165 0%,#ff2b01 50%,#db8d14 100%);">
-          <img src={`${URL_BASE}/images/dayapoint.webp`} class="w-8 h-8 shrink-0" alt="" draggable="false" />
+          <img src={`${URL_BASE}/images/dayapoint.webp`} class="w-8 h-auto shrink-0" alt="" draggable="false" />
           <h1 class="text-2xl md:text-3xl font-bold text-white">DAYABENEFICIOS</h1>
         </div>
-        <p id="instruction-text" class="text-sm md:text-base text-black max-w-2xl">
-          Para descubrir qué le aporta cada componente de Dayamineral al cuerpo, arrastre cada
-          <strong>vitamina y mineral hasta la casilla de los beneficios correspondientes.</strong>
-        </p>
+        <div class="flex items-center justify-between gap-4">
+          <p id="instruction-text" class="text-sm md:text-base text-black max-w-2xl">
+            Para descubrir qué le aporta cada componente de Dayamineral al cuerpo, arrastre cada
+            <strong>vitamina y mineral hasta la casilla de los beneficios correspondientes.</strong>
+          </p>
+          <div id="live-counter" class="flex gap-2 shrink-0">
+            <!-- Dayapoints card -->
+            <div
+              class="rounded-2xl shadow-lg px-3 py-2 text-center min-w-20 flex flex-col items-center gap-1"
+              style="background:linear-gradient(135deg,#b10165 0%,#ff2b01 50%,#db8d14 100%);"
+            >
+              <img src={`${URL_BASE}/images/dayapoint.webp`} class="w-6 h-auto" alt="" draggable="false" />
+              <p id="counter-dayapoints" class="text-2xl font-black leading-none text-white">0</p>
+              <p class="text-[10px] font-black uppercase tracking-wide text-white/80 leading-tight">Dayapoints</p>
+            </div>
+            <!-- Intentos card -->
+            <div class="rounded-2xl bg-white/85 backdrop-blur-sm border border-white/60 shadow-lg px-3 py-2 text-center min-w-18">
+              <p id="counter-attempts" class="text-2xl font-black leading-none" style="color:#1686cd;">0</p>
+              <p class="text-[10px] font-black uppercase tracking-wide text-gray-500 mt-0.5">Intentos</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- ── GAME AREA ───────────────────────────────────────────── -->
@@ -245,16 +263,68 @@ const zones = [
   }
 </style>
 
+<script>
+  import confetti from "canvas-confetti";
+  window.quizConfetti = confetti;
+</script>
+
 <script is:inline define:vars={{ URL_BASE }}>
   // ── STATE ────────────────────────────────────────────────────
   var selectedPillId = null;
   var draggedPillId  = null;
   var pending        = null; // { dzId, itemId, isCorrect }
   var correctCount   = 0;
+  var attemptCount   = 0;
+  var confettiTimer  = null;
   var TOTAL          = 8;
 
   var GRAD_CORRECT   = "linear-gradient(135deg,#b10165 0%,#ff2b01 50%,#db8d14 100%)";
   var GRAD_INCORRECT = "linear-gradient(135deg,#29358f 0%,#1686cd 100%)";
+
+  // ── COUNTER ───────────────────────────────────────────────────
+  function updateCounter() {
+    var el = document.getElementById("counter-dayapoints");
+    var ea = document.getElementById("counter-attempts");
+    if (el) el.textContent = String(correctCount);
+    if (ea) ea.textContent = String(attemptCount);
+  }
+
+  // ── CONFETTI ──────────────────────────────────────────────────
+  function launchSideConfetti() {
+    var confetti = window.quizConfetti;
+    if (!confetti) return;
+    confetti({
+      particleCount: 70,
+      spread: 55,
+      angle: 60,
+      origin: { x: 0, y: 0.55 },
+      colors: ["#b10165", "#f4bd18", "#ffffff"],
+    });
+    confetti({
+      particleCount: 70,
+      spread: 55,
+      angle: 120,
+      origin: { x: 1, y: 0.55 },
+      colors: ["#b10165", "#f4bd18", "#ffffff"],
+    });
+  }
+
+  function launchPerfectFinishConfetti() {
+    var confetti = window.quizConfetti;
+    if (!confetti) return;
+    var end = Date.now() + 3000;
+    clearInterval(confettiTimer);
+    confettiTimer = setInterval(function () {
+      confetti({
+        particleCount: 55,
+        spread: 360,
+        startVelocity: 32,
+        origin: { x: Math.random(), y: Math.random() * 0.55 },
+        colors: ["#b10165", "#f4bd18", "#ffffff", "#1686cd"],
+      });
+      if (Date.now() > end) clearInterval(confettiTimer);
+    }, 250);
+  }
 
   // ── BOOT ─────────────────────────────────────────────────────
   document.addEventListener("DOMContentLoaded", function () {
@@ -395,6 +465,8 @@ const zones = [
     // Determine correctness and store pending
     var isCorrect = zone.dataset.answer === itemId;
     pending = { dzId: dzId, itemId: itemId, isCorrect: isCorrect };
+    attemptCount++;
+    updateCounter();
 
     openModal(isCorrect);
   }
@@ -439,10 +511,9 @@ const zones = [
       dayapoint.style.display = "block";
       title.textContent     = "¡Anótate un Dayapoint!";
       closeBtn.textContent  = "CONTINUAR";
+      launchSideConfetti();
     } else {
       card.style.background = GRAD_INCORRECT;
-      icon.src              = URL_BASE + "/iconos/rayo.webp";
-      icon.alt              = "Incorrecto";
       dayapoint.style.display = "none";
       title.textContent     = "¡Intenta de nuevo!";
       closeBtn.textContent  = "INTENTAR DE NUEVO";
@@ -463,6 +534,7 @@ const zones = [
 
     if (pending.isCorrect) {
       correctCount++;
+      updateCounter();
       if (correctCount === TOTAL) {
         setTimeout(showFinish, 250);
       }
@@ -481,17 +553,21 @@ const zones = [
   function showFinish() {
     document.getElementById("game-area").classList.add("hidden");
     document.getElementById("finish-card").classList.remove("hidden");
+    launchPerfectFinishConfetti();
   }
 
   function reset() {
+    clearInterval(confettiTimer);
     var panel = document.getElementById("vitamins-panel");
     document.querySelectorAll(".drop-zone .zone-slot .vitamin-pill").forEach(function (pill) {
       panel.appendChild(pill);
     });
     document.querySelectorAll(".drop-zone").forEach(function (z) { resetZoneColor(z); });
     correctCount = 0;
+    attemptCount = 0;
     pending      = null;
     deselect();
+    updateCounter();
     document.getElementById("game-area").classList.remove("hidden");
     document.getElementById("finish-card").classList.add("hidden");
   }
