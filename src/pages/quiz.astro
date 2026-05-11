@@ -2,11 +2,425 @@
 import Header from "@/components/Header.astro";
 import { URL_BASE } from "@/config";
 import Layout from "@/layouts/Layout.astro";
+
+const vitamins = [
+  { id: "vitamina-a", label: "VITAMINA A",                color: "#d98125", img: "vitamina_a.webp"  },
+  { id: "vitamina-c", label: "VITAMINA C",                color: "#f24b0c", img: "vitamina_c.webp"  },
+  { id: "vitamina-d", label: "VITAMINA D",                color: "#e00735", img: "vitamina_d.webp"  },
+  { id: "zinc",       label: "ZINC",                      color: "#b00061", img: "zinc.webp"         },
+  { id: "complejo-b", label: "VITAMINAS DEL COMPLEJO B",  color: "#5d0968", img: "complejo_b.webp"  },
+  { id: "calcio",     label: "CALCIO",                    color: "#29358f", img: "calcio.webp"       },
+  { id: "hierro",     label: "HIERRO",                    color: "#1686cd", img: "hierro.webp"       },
+  { id: "magnesio",   label: "MAGNESIO",                  color: "#6db86a", img: "magnesio.webp"     },
+];
+
+const zones = [
+  {
+    id: "dz-1", answer: "vitamina-d",
+    bullets: [
+      "CONTRIBUYE A LA FORMACIÓN DE LOS DIENTES Y LOS HUESOS.",
+      "FAVORECE EL BUEN FUNCIONAMIENTO DEL SISTEMA INMUNE.",
+    ],
+  },
+  {
+    id: "dz-2", answer: "vitamina-a",
+    bullets: [
+      "ESENCIAL PARA LA VISIÓN.",
+      "MANTIENE SANOS LOS TEJIDOS Y LA PIEL.",
+      "DESEMPEÑA UN PAPEL IMPORTANTE EN EL CRECIMIENTO ÓSEO.",
+    ],
+  },
+  {
+    id: "dz-3", answer: "zinc",
+    bullets: ["FAVORECE EL BUEN FUNCIONAMIENTO DEL SISTEMA INMUNE."],
+  },
+  {
+    id: "dz-4", answer: "vitamina-c",
+    bullets: ["AYUDA A PRODUCIR COLÁGENO, UN TEJIDO QUE CONTRIBUYE A LA CICATRIZACIÓN DE HERIDAS."],
+  },
+  {
+    id: "dz-5", answer: "calcio",
+    bullets: [
+      "FORTALECE Y PROTEGE LOS HUESOS Y LOS DIENTES.",
+      "AYUDA A MANTENER UNA BUENA FUNCIÓN MUSCULAR.",
+    ],
+  },
+  {
+    id: "dz-6", answer: "magnesio",
+    bullets: ["NECESARIO PARA LA PRODUCCIÓN DE ENERGÍA."],
+  },
+  {
+    id: "dz-7", answer: "hierro",
+    bullets: [
+      "FUNDAMENTAL PARA FABRICAR LA HEMOGLOBINA (TRANSPORTE DE OXÍGENO DESDE LOS PULMONES AL RESTO DEL CUERPO) Y LA MIOGLOBINA (SUMINISTRO DE OXÍGENO A LOS MÚSCULOS).",
+    ],
+  },
+  {
+    id: "dz-8", answer: "complejo-b",
+    bullets: [
+      "AYUDAN A CONVERTIR LOS ALIMENTOS EN ENERGÍA.",
+      "ESENCIALES PARA LA SALUD DE LA PIEL, EL CABELLO, LA SANGRE, LOS MÚSCULOS Y EL CEREBRO.",
+    ],
+  },
+];
 ---
 
 <Layout>
-  <div class="min-h-screen bg-home-bottom-radial">
+  <div class="min-h-screen bg-home-bottom-radial pb-10">
     <Header abbott="black" />
-  </div>
 
+    <main class="max-w-7xl mx-auto px-4 md:px-6">
+
+      <!-- Title pill -->
+      <div class="mb-4">
+        <div class="inline-flex items-center gap-3 rounded-full py-2 px-6 mb-3" style="background: linear-gradient(135deg,#b10165 0%,#ff2b01 50%,#db8d14 100%);">
+          <img src={`${URL_BASE}/images/dayapoint.webp`} class="w-8 h-8 flex-shrink-0" alt="" draggable="false" />
+          <h1 class="text-2xl md:text-3xl font-bold text-white">DAYABENEFICIOS</h1>
+        </div>
+        <p id="instruction-text" class="text-sm md:text-base text-black max-w-2xl">
+          Para descubrir qué le aporta cada componente de Dayamineral al cuerpo, arrastre cada
+          <strong>vitamina y mineral hasta la casilla de los beneficios correspondientes.</strong>
+        </p>
+      </div>
+
+      <!-- Game area -->
+      <div class="flex flex-col md:flex-row gap-3 md:gap-5 items-start">
+
+        <!-- Vitamins panel -->
+        <div
+          id="vitamins-panel"
+          class="grid grid-cols-2 gap-2 md:flex md:flex-col md:gap-2 w-full md:w-56 flex-shrink-0 rounded-xl p-1.5 border-2 border-dashed border-gray-300/60 transition-colors duration-150"
+        >
+          {vitamins.map((v) => (
+            <div
+              class="vitamin-pill flex items-center gap-2 rounded-full px-3 py-2 cursor-grab active:cursor-grabbing select-none transition-all duration-150 w-full"
+              data-id={v.id}
+              draggable="true"
+              style={`background-color:${v.color};`}
+            >
+              <img
+                src={`${URL_BASE}/images/${v.img}`}
+                class="w-7 h-7 rounded-full object-contain flex-shrink-0 bg-white/25 p-0.5"
+                alt={v.label}
+                draggable="false"
+              />
+              <span class="font-bold text-white text-xs leading-tight">{v.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Drop zones 2×4 grid -->
+        <div class="grid grid-cols-2 gap-2 md:gap-3 flex-1 w-full">
+          {zones.map((z) => (
+            <div
+              class="drop-zone relative border-2 border-gray-200 rounded-2xl p-2 md:p-3 bg-white/65 backdrop-blur-sm transition-all duration-150 flex flex-col"
+              data-id={z.id}
+              data-answer={z.answer}
+            >
+              <!-- Placed vitamin slot -->
+              <div class="zone-slot mb-1.5"></div>
+              <!-- Benefit bullets -->
+              <ul class="space-y-1 flex-1">
+                {z.bullets.map((b) => (
+                  <li class="text-[9px] md:text-[11px] text-gray-700 flex gap-1 items-start leading-tight">
+                    <span class="text-gray-400 flex-shrink-0 mt-px">•</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="mt-5 flex flex-col items-center gap-3">
+        <button id="verify-btn" disabled class="quiz-verify-btn font-bold py-3 px-12 rounded-full text-lg text-white transition-all duration-200" style="background:linear-gradient(135deg,#b10165 0%,#ff2b01 50%,#db8d14 100%);">
+          VERIFICAR
+        </button>
+
+        <p id="result-message" class="text-base md:text-lg font-bold text-center px-4" style="display:none;"></p>
+
+        <button id="retry-btn" class="items-center gap-2 font-bold py-2 px-8 rounded-full text-base text-white transition-all duration-200 cursor-pointer hover:scale-105" style="display:none; background:linear-gradient(315deg,#b10165 0%,#ff2b01 50%,#db8d14 100%);">
+          <img src={`${URL_BASE}/images/try_again.webp`} class="w-6 h-6" alt="" draggable="false" />
+          INTENTAR DE NUEVO
+        </button>
+      </div>
+
+      <!-- References -->
+      <p class="mt-8 text-[9px] md:text-[10px] text-gray-400 max-w-2xl leading-relaxed">
+        <strong>Referencias:</strong> Harvard Health Publishing. Making sense of vitamins and minerals: choosing the foods and nutrients you need to stay healthy [Internet]. Boston (MA): Harvard Medical School; 2020 |
+        National Institutes of Health (NIH). Suplementos dietéticos [Internet]. Bethesda (MD): National Institutes of Health; 2009 |
+        Mason JB. Instant benefits, side effects and image [Internet]. Healthline; 2021.
+      </p>
+
+    </main>
+  </div>
 </Layout>
+
+<style>
+  /* Drop zone hover while dragging */
+  .drop-zone.dz-hover {
+    border-color: #1686cd;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+  }
+
+  /* Vitamins panel hover while dragging over it */
+  #vitamins-panel.panel-hover {
+    border-color: #1686cd;
+    background-color: rgba(22, 134, 205, 0.06);
+  }
+
+  /* Selected pill state (mobile tap) */
+  .vitamin-pill.vp-selected {
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(22, 134, 205, 0.7);
+    transform: scale(1.06);
+  }
+
+  /* Pill being dragged */
+  .vitamin-pill.vp-dragging {
+    opacity: 0.25;
+  }
+
+  /* Verify button states */
+  .quiz-verify-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .quiz-verify-btn:not(:disabled) {
+    cursor: pointer;
+  }
+  .quiz-verify-btn:not(:disabled):hover {
+    transform: scale(1.05);
+  }
+
+  /* Zone slot pill styling */
+  .zone-slot .vitamin-pill {
+    cursor: pointer;
+  }
+  .zone-slot .vitamin-pill:hover {
+    opacity: 0.85;
+  }
+</style>
+
+<script>
+  let selectedPillId: string | null = null;
+  let draggedPillId: string | null = null;
+
+  // ── INIT ─────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    adaptInstructionText();
+    initDragAndDrop();
+    initTapToSelect();
+    initButtons();
+    updateVerifyBtn();
+  });
+
+  function adaptInstructionText() {
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouch) {
+      const el = document.getElementById("instruction-text");
+      if (el) {
+        el.innerHTML =
+          "Para descubrir qué le aporta cada componente de Dayamineral al cuerpo, " +
+          "<strong>toca una vitamina o mineral para seleccionarlo y luego toca la casilla de los beneficios correspondientes.</strong>";
+      }
+    }
+  }
+
+  // ── DRAG & DROP (desktop) ────────────────────────────────────
+  function initDragAndDrop() {
+    document.addEventListener("dragstart", (e) => {
+      const pill = (e.target as Element).closest<HTMLElement>(".vitamin-pill");
+      if (!pill) return;
+      draggedPillId = pill.dataset.id ?? null;
+      e.dataTransfer!.setData("text/plain", pill.dataset.id ?? "");
+      e.dataTransfer!.effectAllowed = "move";
+      // Delay opacity so ghost image renders correctly
+      setTimeout(() => pill.classList.add("vp-dragging"), 0);
+    });
+
+    document.addEventListener("dragend", (e) => {
+      const pill = (e.target as Element).closest<HTMLElement>(".vitamin-pill");
+      if (pill) pill.classList.remove("vp-dragging");
+      draggedPillId = null;
+      document.querySelectorAll(".dz-hover").forEach((z) => z.classList.remove("dz-hover"));
+      document.getElementById("vitamins-panel")?.classList.remove("panel-hover");
+    });
+
+    // Drop zones
+    document.querySelectorAll<HTMLElement>(".drop-zone").forEach((zone) => {
+      zone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        zone.classList.add("dz-hover");
+      });
+      zone.addEventListener("dragleave", (e) => {
+        if (!zone.contains(e.relatedTarget as Node)) {
+          zone.classList.remove("dz-hover");
+        }
+      });
+      zone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        zone.classList.remove("dz-hover");
+        if (draggedPillId) placeItem(zone.dataset.id!, draggedPillId);
+      });
+    });
+
+    // Vitamins panel as a drop target (return pill to panel)
+    const panel = document.getElementById("vitamins-panel")!;
+    panel.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      panel.classList.add("panel-hover");
+    });
+    panel.addEventListener("dragleave", (e) => {
+      if (!panel.contains(e.relatedTarget as Node)) {
+        panel.classList.remove("panel-hover");
+      }
+    });
+    panel.addEventListener("drop", (e) => {
+      e.preventDefault();
+      panel.classList.remove("panel-hover");
+      if (draggedPillId) {
+        const pill = document.querySelector<HTMLElement>(`.vitamin-pill[data-id="${draggedPillId}"]`);
+        if (pill) {
+          panel.appendChild(pill);
+          clearVerification();
+          updateVerifyBtn();
+        }
+      }
+    });
+  }
+
+  // ── TAP TO SELECT (mobile) ───────────────────────────────────
+  function initTapToSelect() {
+    // Use capture phase so pill click fires before zone click
+    document.addEventListener(
+      "click",
+      (e) => {
+        const pill = (e.target as Element).closest<HTMLElement>(".vitamin-pill");
+        if (pill) {
+          e.stopPropagation();
+          const id = pill.dataset.id!;
+          if (selectedPillId === id) {
+            deselect();
+          } else {
+            selectPill(id);
+          }
+          return;
+        }
+
+        const zone = (e.target as Element).closest<HTMLElement>(".drop-zone");
+        if (zone && selectedPillId) {
+          placeItem(zone.dataset.id!, selectedPillId);
+          deselect();
+        } else if (!zone && !pill) {
+          deselect();
+        }
+      },
+      true
+    );
+  }
+
+  function selectPill(id: string) {
+    deselect();
+    selectedPillId = id;
+    document.querySelector<HTMLElement>(`.vitamin-pill[data-id="${id}"]`)?.classList.add("vp-selected");
+  }
+
+  function deselect() {
+    if (selectedPillId) {
+      document.querySelector<HTMLElement>(`.vitamin-pill[data-id="${selectedPillId}"]`)?.classList.remove("vp-selected");
+    }
+    selectedPillId = null;
+  }
+
+  // ── CORE: place a pill into a zone ───────────────────────────
+  function placeItem(dzId: string, itemId: string) {
+    const pill = document.querySelector<HTMLElement>(`.vitamin-pill[data-id="${itemId}"]`);
+    if (!pill) return;
+
+    const slot = document.querySelector<HTMLElement>(`.drop-zone[data-id="${dzId}"] .zone-slot`);
+    if (!slot) return;
+
+    // Return the current occupant to the vitamins panel
+    const occupant = slot.querySelector<HTMLElement>(".vitamin-pill");
+    if (occupant && occupant !== pill) {
+      document.getElementById("vitamins-panel")!.appendChild(occupant);
+    }
+
+    // Move pill into the slot
+    slot.appendChild(pill);
+
+    clearVerification();
+    updateVerifyBtn();
+  }
+
+  function updateVerifyBtn() {
+    const placed = document.querySelectorAll(".drop-zone .zone-slot .vitamin-pill").length;
+    const btn = document.getElementById("verify-btn") as HTMLButtonElement;
+    if (btn) btn.disabled = placed < 8;
+  }
+
+  // ── VERIFY ───────────────────────────────────────────────────
+  function initButtons() {
+    document.getElementById("verify-btn")?.addEventListener("click", verify);
+    document.getElementById("retry-btn")?.addEventListener("click", reset);
+  }
+
+  function verify() {
+    let correct = 0;
+
+    document.querySelectorAll<HTMLElement>(".drop-zone").forEach((zone) => {
+      const pill = zone.querySelector<HTMLElement>(".zone-slot .vitamin-pill");
+      const ok = pill?.dataset.id === zone.dataset.answer;
+      if (ok) {
+        correct++;
+        zone.style.borderColor = "#22c55e";
+        zone.style.borderWidth = "3px";
+        zone.style.boxShadow = "0 0 8px rgba(34,197,94,.35)";
+      } else {
+        zone.style.borderColor = "#ef4444";
+        zone.style.borderWidth = "3px";
+        zone.style.boxShadow = "0 0 8px rgba(239,68,68,.3)";
+      }
+    });
+
+    const msg = document.getElementById("result-message")!;
+    msg.style.display = "block";
+    if (correct === 8) {
+      msg.textContent = "¡Excelente! ¡Respondiste todo correctamente!";
+      msg.style.color = "#16a34a";
+    } else {
+      msg.textContent = `Obtuviste ${correct} de 8 correctas. ¡Inténtalo de nuevo!`;
+      msg.style.color = "#dc2626";
+    }
+
+    const retryBtn = document.getElementById("retry-btn")!;
+    retryBtn.style.display = "flex";
+  }
+
+  function clearVerification() {
+    document.querySelectorAll<HTMLElement>(".drop-zone").forEach((zone) => {
+      zone.style.borderColor = "";
+      zone.style.borderWidth = "";
+      zone.style.boxShadow = "";
+    });
+    const msg = document.getElementById("result-message")!;
+    if (msg) msg.style.display = "none";
+    const retryBtn = document.getElementById("retry-btn")!;
+    if (retryBtn) retryBtn.style.display = "none";
+  }
+
+  // ── RESET ────────────────────────────────────────────────────
+  function reset() {
+    const panel = document.getElementById("vitamins-panel")!;
+    document.querySelectorAll<HTMLElement>(".drop-zone .zone-slot .vitamin-pill").forEach((pill) => {
+      panel.appendChild(pill);
+    });
+    clearVerification();
+    deselect();
+    updateVerifyBtn();
+  }
+</script>
