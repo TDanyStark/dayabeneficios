@@ -94,9 +94,12 @@ const zones = [
               <p class="text-[10px] font-black uppercase tracking-wide text-white/80 leading-tight">Dayapoints</p>
             </div>
             <!-- Intentos card -->
-            <div class="rounded-2xl bg-white/85 backdrop-blur-sm border border-white/60 shadow-lg px-3 py-2 text-center min-w-18">
+            <div class="rounded-2xl bg-white/85 backdrop-blur-sm border border-white/60 shadow-lg px-3 py-2 text-center min-w-20 flex flex-col items-center gap-1">
+              <div class="rounded-full p-1.5 shrink-0" style="background:linear-gradient(135deg,#29358f 0%,#1686cd 100%);">
+                <img src={`${URL_BASE}/iconos/rayo.webp`} class="w-4 h-auto" alt="" draggable="false" />
+              </div>
               <p id="counter-attempts" class="text-2xl font-black leading-none" style="color:#1686cd;">0</p>
-              <p class="text-[10px] font-black uppercase tracking-wide text-gray-500 mt-0.5">Intentos</p>
+              <p class="text-[10px] font-black uppercase tracking-wide text-gray-500 leading-tight">Intentos</p>
             </div>
           </div>
         </div>
@@ -211,6 +214,13 @@ const zones = [
         src={`${URL_BASE}/images/dayapoint.webp`}
         alt="Dayapoint"
         class="mx-auto mb-3 h-auto w-16"
+        draggable="false"
+      />
+      <img
+        id="modal-rayo"
+        src={`${URL_BASE}/iconos/rayo.webp`}
+        alt=""
+        class="mx-auto mb-3 h-auto w-16 hidden"
         draggable="false"
       />
       <h2
@@ -503,18 +513,21 @@ const zones = [
   function openModal(isCorrect) {
     var card      = document.getElementById("modal-card");
     var dayapoint = document.getElementById("modal-dayapoint");
+    var rayo      = document.getElementById("modal-rayo");
     var title     = document.getElementById("modal-title");
     var closeBtn  = document.getElementById("modal-close");
 
     if (isCorrect) {
       card.style.background = GRAD_CORRECT;
       dayapoint.style.display = "block";
+      rayo.classList.add("hidden");
       title.textContent     = "¡Anótate un Dayapoint!";
       closeBtn.textContent  = "CONTINUAR";
       launchSideConfetti();
     } else {
       card.style.background = GRAD_INCORRECT;
       dayapoint.style.display = "none";
+      rayo.classList.remove("hidden");
       title.textContent     = "¡Intenta de nuevo!";
       closeBtn.textContent  = "INTENTAR DE NUEVO";
     }
