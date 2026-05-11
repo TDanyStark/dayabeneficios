@@ -1,5 +1,11 @@
 ---
 import { URL_BASE } from "@/config";
+
+interface Props {
+  abbott?: "white" | "black";
+}
+
+const abbott = Astro.props.abbott || "white";
 ---
 
 <header
@@ -10,8 +16,8 @@ import { URL_BASE } from "@/config";
       <a href={URL_BASE}>
         <img
           class="w-32"
-          src={`${URL_BASE}/logos/abbott_white.webp`}
-          alt="Logo Abbott White"
+          src={`${URL_BASE}/logos/abbott_${abbott}.webp`}
+          alt={`Logo Abbott ${abbott.charAt(0).toUpperCase() + abbott.slice(1)}`}
         />
       </a>
     </div>
