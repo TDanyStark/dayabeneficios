@@ -18,37 +18,47 @@ import Layout from "@/layouts/Layout.astro";
         />
       </div>
       <div
-        class="w-7xl mx-auto max-w-full p-4 md:p-6 flex-1 flex items-center justify-end lg:w-1/2 lg:mx-0 lg:justify-center lg:min-h-screen bg-home-bottom-radial"
+        class="relative w-7xl mx-auto max-w-full p-4 md:p-6 flex-1 flex flex-col items-center lg:w-1/2 lg:mx-0 lg:min-h-screen bg-home-bottom-radial"
       >
-        <div class="w-full lg:max-w-xl">
-          <div class="flex items-center gap-4 flex-col mb-6 bg-vitamina-c rounded-full py-3 px-8 ">
-            <img
-              src={`${URL_BASE}/images/dayapoint.webp`}
-              alt="Logo Datapoint"
-              class="w-12 h-auto inline-block mr-4"
-            />
-            <h1
-              class="text-4xl md:text-6xl font-bold text-white"
+        <div class="flex-1 flex items-center justify-center lg:justify-start">
+          <div class="w-full lg:max-w-xl">
+            <div
+              class="flex items-center gap-4 flex-col mb-6 bg-vitamina-c rounded-full py-3 px-8"
             >
-              DAYABENEFICIOS
-            </h1>
-          </div>
+              <img
+                src={`${URL_BASE}/images/dayapoint.webp`}
+                alt="Logo Datapoint"
+                class="w-12 h-auto inline-block mr-4"
+              />
+              <h1 class="text-4xl md:text-6xl font-bold text-white">
+                DAYABENEFICIOS
+              </h1>
+            </div>
 
-          <p class="mt-8 text-2xl xs:text-3xl text-black">
-            Para descubrir qué le aporta cada componente de Dayamineral al
-            cuerpo, arrastre cada <strong
-              >vitamina y mineral hasta la casilla de los beneficios
-              correspondientes.</strong
-            >
-          </p>
-          <div class="mt-16 flex justify-end">
-            <a
-              class="text-3xl text-white font-bold py-3 px-6 border border-white rounded-full flex items-center bg-zinc transition-transform transform hover:scale-105"
-              href={`${URL_BASE}/quiz`}
-            >
-              COMENZAR
-            </a>
+            <p class="mt-8 text-2xl xs:text-3xl text-black">
+              Para descubrir qué le aporta cada componente de Dayamineral al
+              cuerpo, arrastre cada <strong
+                >vitamina y mineral hasta la casilla de los beneficios
+                correspondientes.</strong
+              >
+            </p>
+            <div class="mt-16 flex justify-end">
+              <a
+                class="text-3xl text-white font-bold py-3 px-6 border border-white rounded-full flex items-center bg-zinc transition-transform transform hover:scale-105"
+                href={`${URL_BASE}/quiz`}
+              >
+                COMENZAR
+              </a>
+            </div>
           </div>
+        </div>
+
+        <div class="w-full lg:max-w-xl">
+          <p
+            class="text-right px-4 text-[10px] md:text-xs text-black uppercase tracking-wide"
+          >
+            Uso exclusivo para profesionales médicos <b>CAC-26-0599</b>
+          </p>
         </div>
       </div>
     </main>

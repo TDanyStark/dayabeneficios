@@ -78,7 +78,7 @@ const zones = [
           <img src={`${URL_BASE}/images/dayapoint.webp`} class="w-8 h-auto shrink-0" alt="" draggable="false" />
           <h1 class="text-2xl md:text-3xl font-bold text-white">DAYABENEFICIOS</h1>
         </div>
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
           <p id="instruction-text" class="text-sm md:text-base text-black max-w-2xl">
             Para descubrir qué le aporta cada componente de Dayamineral al cuerpo, arrastre cada
             <strong>vitamina y mineral hasta la casilla de los beneficios correspondientes.</strong>
@@ -198,13 +198,18 @@ const zones = [
         </button>
       </div>
 
-      <!-- References -->
-      <p class="mt-8 text-[9px] md:text-[10px] text-gray-400 max-w-2xl leading-relaxed">
-        <strong>Referencias:</strong> Harvard Health Publishing. Making sense of vitamins and minerals:
-        choosing the foods and nutrients you need to stay healthy [Internet]. Boston (MA): Harvard Medical School; 2020 |
-        National Institutes of Health (NIH). Suplementos dietéticos [Internet]. Bethesda (MD): NIH; 2009 |
-        Mason JB. Instant benefits, side effects and image [Internet]. Healthline; 2021.
-      </p>
+      <!-- References + legal -->
+      <div class="mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+        <p class="text-[9px] md:text-[10px] text-black max-w-2xl leading-relaxed">
+          <strong>Referencias:</strong> Harvard Health Publishing. Making sense of vitamins and minerals:
+          choosing the foods and nutrients you need to stay healthy [Internet]. Boston (MA): Harvard Medical School; 2020 |
+          National Institutes of Health (NIH). Suplementos dietéticos [Internet]. Bethesda (MD): NIH; 2009 |
+          Mason JB. Instant benefits, side effects and image [Internet]. Healthline; 2021.
+        </p>
+        <p class="text-[9px] md:text-[10px] text-black uppercase tracking-wide shrink-0 md:text-right">
+          Uso exclusivo para profesionales médicos <b>CAC-26-0599</b>
+        </p>
+      </div>
     </main>
   </div>
 
