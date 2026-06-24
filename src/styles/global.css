@@ -22,15 +22,17 @@
 }
 
 @theme{
-  --color-vitamina-a: #d98125;
-  --color-vitamina-c: #f24b0c;
-  --color-vitamina-d: #e00735;
-  --color-zinc: #b00061;
-  --color-complejo-b: #5d0968;
-  --color-calcio: #29358f;
-  --color-hierro: #1686cd;
-  --color-magnesio: #9dd799;
+  --color-vitamina-a: #ffd100;
+  --color-vitamina-c: #ff6900;
+  --color-vitamina-d: #e4002b;
+  --color-zinc: #aa0061;
+  --color-complejo-b: #470a68;
+  --color-calcio: #64ccc9;
+  --color-hierro: #5bc2e7;
+  --color-magnesio: #470a68;
   --color-blue-abbott: #1686cd;
+
+  --color-point: #1686CD;
 
   /* gradient */
   --gradient-button:  135deg, #b10165 0%, #ff2b01 50%, #db8d14 100%;
